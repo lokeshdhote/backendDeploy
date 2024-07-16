@@ -9,10 +9,9 @@ exports.indexpage = catchAsyncErrors(async (req, res, next) => {
 });
 exports.LoginUser = catchAsyncErrors(async (req, res, next) => {
   const LogedUser = await userModel.findById(req.id).exec();
-  console.log("====================================");
-  console.log(LogedUser);
-  console.log("====================================");
-  res.send(LogedUser);
+  
+ 
+  res.status(201).json(LogedUser);
 });
 
 exports.homepage = catchAsyncErrors(async (req, res, next) => {
