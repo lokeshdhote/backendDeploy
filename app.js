@@ -22,8 +22,6 @@ const allowedOrigins =["http://localhost:5173"]
 
 
 
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
 
 
 
@@ -34,11 +32,7 @@ app.use(expressSession({
   }))
 
   
-  app.use(passport.initialize())
-  app.use(passport.session())
-  passport.serializeUser(usersRouter.serializeUser())
-  passport.deserializeUser(usersRouter.deserializeUser())
-  
+ 
   
   app.use(cors({origin:allowedOrigins,credentials:true})) 
 
@@ -46,7 +40,6 @@ app.use(logger('tiny'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
 
 //Routes
