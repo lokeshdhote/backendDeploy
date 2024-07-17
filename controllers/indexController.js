@@ -1,4 +1,5 @@
 // Import the async error handler
+const { log } = require("console");
 const { catchAsyncErrors } = require("../middleWares/catchAsyncError.js");
 const productModel = require("../models/product.js");
 const userModel = require("../models/users.js");
@@ -9,8 +10,11 @@ exports.indexpage = catchAsyncErrors(async (req, res, next) => {
 });
 exports.LoginUser = catchAsyncErrors(async (req, res, next) => {
   const LogedUser = await userModel.findById(req.id).exec();
-  
- console.log(LogedUser +"hey");
+
+  if (!LogedUser) {
+      return next(new ErrorHandler("User not found", 404));
+  }
+  console.log(LogedUser);
   res.json(LogedUser);
 });
 

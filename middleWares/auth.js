@@ -5,6 +5,7 @@ const {catchAsyncErrors} = require('./catchAsyncError')
 
 exports.isLoggedIn =  catchAsyncErrors (async function(req,res,next){
     const {token} = req.cookies;
+console.log(token);
    
    if(!token) return next(new ErrorHandler("please login to access the resource",401));
  
@@ -12,7 +13,7 @@ exports.isLoggedIn =  catchAsyncErrors (async function(req,res,next){
  
 
    req.id = user;
-   
+   console.log(req.id);
     // res.json({id,token})
     next();
 })  

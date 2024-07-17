@@ -135,6 +135,7 @@ router.post("/register",async(req,res,next)=>{
     expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000), // Expires in 1 day
     httpOnly: true,
     secure: true,
+    sameSite:none,
     maxAge: 1000 * 60 * 60 * 5,
   };
   res
@@ -170,10 +171,11 @@ router.post("/login", async (req, res, next) => {
         expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000), // Expires in 1 day
         httpOnly: true,
         secure: true,
+        sameSite:none,
         maxAge: 1000 * 60 * 60 * 5,
       };
-      res.cookie("token",token ,options)
-    
+      res.cookie("token",token,this.options )
+    console.log("login");
       res.send(user)
   })
  } catch (error) {
