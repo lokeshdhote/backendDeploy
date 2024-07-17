@@ -18,8 +18,7 @@ require("./models/dataBase.js").connectDatabse();
 
 
 // const allowedOrigins =["http://localhost:5173"]
-// const allowedOrigins =["https://frontend-deploy-alpha.vercel.app/"]
-const allowedOrigins =["https://frontenddeploy-1.onrender.com/"]
+const allowedOrigins =["https://frontend-deploy-alpha.vercel.app/"]
 
 
 
