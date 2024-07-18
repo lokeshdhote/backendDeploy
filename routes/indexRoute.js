@@ -131,17 +131,19 @@ router.post("/register",async(req,res,next)=>{
   console.log(req.body);
  try {
   const user = await new userModel(req.body).save()
-  let token= jwt.sign({email:req.body.email},"piyush")
+  const token = user.getjwttoken();
   const options = {
     expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000), // Expires in 1 day
     httpOnly: true,
     secure: true,
-    maxAge: 1000 * 60 * 60 * 5,
-  };
+    sameSite: "None",
+    maxAge: 1000 * 60 * 60 * 5,
+  };
+  console.log(options);
   res
-  .cookie("token",token,options)
-  .status(201)
-  .json(user)
+    .status(statusCode)
+    .cookie("token", token, options)
+    .json({ success: true, id: user._id, token });
  } catch (error) {
   res.json({
     error
