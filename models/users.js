@@ -2,7 +2,7 @@ const  mongoose = require("mongoose")
 const bcrypt = require("bcrypt")
 const plm = require("passport-local-mongoose")
 const { type } = require("os")
-
+const jwt = require("jsonwebtoken")
 
 
 const userSchema = mongoose.Schema({
@@ -81,6 +81,11 @@ userSchema.pre("save",function (){
       return bcrypt.compareSync(password , this.password)
       
   }
+  userSchema.methods.getjwttoken = function () {
+    return jwt.sign({ id: this._id },'piyush', {
+      expiresIn: '24h',
+    });
+  };
 
 userSchema.plugin(plm)
 module.exports = mongoose.model("user",userSchema)

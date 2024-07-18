@@ -141,7 +141,7 @@ router.post("/register",async(req,res,next)=>{
   };
   console.log(options);
   res
-    .status(statusCode)
+    .status(201)
     .cookie("token", token, options)
     .json({ success: true, id: user._id, token });
  } catch (error) {
@@ -173,16 +173,19 @@ router.post("/login", async (req, res, next) => {
         })
         return;
       }
-      const token=jwt.sign({ email:req.body.email,user:user.id},"piyush")
+      const token = user.getjwttoken();
       const options = {
         expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000), // Expires in 1 day
         httpOnly: true,
         secure: true,
-        maxAge: 1000 * 60 * 60 * 5,
-      };
-      res.cookie("token",token,this.options )
-    console.log("login");
-      res.send(user)
+        sameSite: "None",
+        maxAge: 1000 * 60 * 60 * 5,
+      };
+      console.log(options);
+      res
+        .status(200)
+        .cookie("token", token, options)
+        .json({ success: true, id: user._id, token });
   })
  } catch (error) {
   console.log('====================================');
