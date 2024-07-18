@@ -129,19 +129,24 @@ router.get("/cart/addMore/:id",isLoggedIn,addMoreItem );
 
 router.post("/register",async(req,res,next)=>{
   console.log(req.body);
+ try {
   const user = await new userModel(req.body).save()
   let token= jwt.sign({email:req.body.email},"piyush")
   const options = {
     expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000), // Expires in 1 day
     httpOnly: true,
     secure: true,
-    sameSite:none,
     maxAge: 1000 * 60 * 60 * 5,
   };
   res
   .cookie("token",token,options)
   .status(201)
   .json(user)
+ } catch (error) {
+  res.json({
+    error
+  })
+ }
   
 
 });
@@ -171,7 +176,6 @@ router.post("/login", async (req, res, next) => {
         expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000), // Expires in 1 day
         httpOnly: true,
         secure: true,
-        sameSite:none,
         maxAge: 1000 * 60 * 60 * 5,
       };
       res.cookie("token",token,this.options )
@@ -182,7 +186,7 @@ router.post("/login", async (req, res, next) => {
   console.log('====================================');
   console.log(error);
   console.log('====================================');
-  res.status(401).json({error})
+  res.json({error})
  }
 
 
