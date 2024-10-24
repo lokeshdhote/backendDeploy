@@ -9,7 +9,7 @@ const ErrorHandler = require("../utils/ErrorHandler.js");
 exports.indexpage = catchAsyncErrors(async (req, res, next) => {
   res.render("index");
 });
-exports.LoginUser = catchAsyncErrors(async (req, res, next) => {
+exports.loginusers = catchAsyncErrors(async (req, res, next) => {
   const LogedUser = await userModel.findById(req.id).exec();
   // console.log(LogedUser+"kkk");
   if (!LogedUser) {

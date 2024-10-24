@@ -13,7 +13,7 @@ const cookieparser=require("cookie-parser")
 const {isLoggedIn} = require("../middleWares/auth.js")
 
 
-const { indexpage, paymentCheck ,homepage, detailpage, createProductpage,searchSection, bookpage, Wishlistpage, removeLikeid, profilepage, postproductpage, likeProductid, productpage, createOrderId, LoginUser, cartAdd, removeItem, addMoreItem, orderDetailPage, orderPage, accountDelete } = require("../controllers/indexController.js");
+const { indexpage, paymentCheck ,homepage, detailpage, createProductpage,searchSection, bookpage, Wishlistpage, removeLikeid, profilepage, postproductpage, likeProductid, productpage, createOrderId, loginusers, cartAdd, removeItem, addMoreItem, orderDetailPage, orderPage, accountDelete } = require("../controllers/indexController.js");
 const ErrorHandler = require("../utils/ErrorHandler.js");
 const { log } = require("console");
 // const { token } = require("morgan");
@@ -30,7 +30,7 @@ passport.use(new localStrategy(userModel.authenticate()));
 router.get("/", indexpage);
 router.get("/products", productpage);
 
-router.get("/LoginUser",isLoggedIn,LoginUser)
+router.get("/LoginUser",isLoggedIn,loginusers)
 
 router.get("/home",isLoggedIn ,homepage);
 router.get("/search/:name",isLoggedIn ,searchSection);
