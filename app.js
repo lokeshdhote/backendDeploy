@@ -28,7 +28,7 @@ app.use(cors({
   credentials: true
 }));
 
-// app.options('*', cors());
+app.options('*', cors());
 // app.use(cors({origin:allowedOrigins,  methods: 'GET,POST,PUT,DELETE', credentials: true})) 
 
 const generatedErrror = (err,req,res,next)=>{
