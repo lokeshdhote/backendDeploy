@@ -1,3 +1,4 @@
+
 // This middleware wraps async functions to catch errors
 exports.catchAsyncErrors = (fn) => (req, res, next) => {
     

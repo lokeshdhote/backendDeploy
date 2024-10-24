@@ -1,5 +1,6 @@
 
 
+
 exports.generatedErrors = (err, req, res, next) => {
     const statusCode = err.statusCode || 500;
 

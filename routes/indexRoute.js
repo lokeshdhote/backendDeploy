@@ -13,7 +13,7 @@ const cookieparser=require("cookie-parser")
 const {isLoggedIn} = require("../middleWares/auth.js")
 
 
-const { indexpage, homepage, detailpage, createProductpage,searchSection, bookpage, Wishlistpage, removeLikeid, profilepage, postproductpage, likeProductid, productpage, createOrderId, LoginUser, cartAdd, removeItem, addMoreItem, orderDetailPage, orderPage, accountDelete } = require("../controllers/indexController.js");
+const { indexpage, paymentCheck ,homepage, detailpage, createProductpage,searchSection, bookpage, Wishlistpage, removeLikeid, profilepage, postproductpage, likeProductid, productpage, createOrderId, LoginUser, cartAdd, removeItem, addMoreItem, orderDetailPage, orderPage, accountDelete } = require("../controllers/indexController.js");
 const ErrorHandler = require("../utils/ErrorHandler.js");
 const { log } = require("console");
 // const { token } = require("morgan");
@@ -57,63 +57,35 @@ router.get("/book",isLoggedIn , bookpage)
 // router.post('/create/orderId', createOrderId)
 
 router.post("/order",isLoggedIn,orderPage)
+router.post("/payment",isLoggedIn,paymentCheck)
 router.post("/order/:id",isLoggedIn,orderDetailPage)
 router.post("/deleteAccount",isLoggedIn,accountDelete)
 
 
-// router.post("/api/payment/verify",(req,res)=>{
-
-//   let body=req.body.response.razorpay_order_id + "|" + req.body.response.razorpay_payment_id;
- 
-//    var crypto = require("crypto");
-//    var expectedSignature = crypto.createHmac('sha256', process.env.key_Secret)
-//                                    .update(body.toString())
-//                                    .digest('hex');
-//                                    console.log("sig received " ,req.body.response.razorpay_signature);
-//                                    console.log("sig generated " ,expectedSignature);
-//    var response = {"signatureIsValid":"false"}
-//    if(expectedSignature === req.body.response.razorpay_signature)
-//     response={"signatureIsValid":"true"}
-//        res.send(response);
-//    });
- 
-// router.get("/success",function(req,res){
-//   res.render("success")
-// })
-// router.get("/fail",function(req,res){
-//   res.render("fail")
-// })
- // user.populate("cart")
-  // console.log(user.cart.pro)
   router.get("/cart", isLoggedIn, async function (req, res, next) {
     try {
-      // Fetch the user by ID and populate the cart products
+     
       const user = await userModel.findById(req.id).populate("cart.pro").exec();
       if (!user) {
         return res.status(404).json({ error: "User not found" });
       }
   
-      // Initialize the sum variable
       let sum = 0;
   
-      // Calculate the total sum of the cart items
       user.cart.forEach((item) => {
-        // Ensure price and quantity are numbers to avoid type issues
+   
         sum += Number(item.pro.price) * Number(item.quantity);
       });
   
-      // Update the SUM field with the calculated sum multiplied by 100
       user.SUM = sum ;
-  
-      // Save the updated user document
+
       await user.save();
   
-      // Return the updated user object
       res.json(user);
   
     } catch (error) {
       console.error(error);
-      next(error); // Pass the error to the next middleware (error handler)
+      next(error); 
     }
   });
   
@@ -136,10 +108,10 @@ router.post("/register",async(req,res,next)=>{
     expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000), // Expires in 1 day
     httpOnly: true,
     secure: true,
-    sameSite: "None",
+    // sameSite: "None",
     maxAge: 1000 * 60 * 60 * 5,
   };
-  console.log(options);
+  console.log(token+"register");
   res
     .status(201)
     .cookie("token", token, options)
@@ -159,6 +131,8 @@ router.post("/login", async (req, res, next) => {
   const{email,password}=req.body;
 
   const user =await userModel.findOne({email});
+  // console.log(user+"ppp");
+  
   
   if(!user){
    res.status(401).json({
@@ -178,14 +152,17 @@ router.post("/login", async (req, res, next) => {
         expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000), // Expires in 1 day
         httpOnly: true,
         secure: true,
-        sameSite: "None",
+        // sameSite: "None",
         maxAge: 1000 * 60 * 60 * 5,
       };
-      console.log(options);
+      console.log(token+"login");
       res
         .status(200)
         .cookie("token", token, options)
         .json({ success: true, id: user._id, token });
+
+        console.log(user+"ppp");
+        
   })
  } catch (error) {
   console.log('====================================');

@@ -82,8 +82,8 @@ userSchema.pre("save",function (){
       
   }
   userSchema.methods.getjwttoken = function () {
-    return jwt.sign({ id: this._id },'piyush', {
-      expiresIn: '24h',
+    return jwt.sign({ user: this._id },'piyush', {
+      expiresIn: '1h',
     });
   };
 

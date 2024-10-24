@@ -1,3 +1,4 @@
+
 // Import the async error handler
 const { log } = require("console");
 const { catchAsyncErrors } = require("../middleWares/catchAsyncError.js");
@@ -10,11 +11,11 @@ exports.indexpage = catchAsyncErrors(async (req, res, next) => {
 });
 exports.LoginUser = catchAsyncErrors(async (req, res, next) => {
   const LogedUser = await userModel.findById(req.id).exec();
-
+  // console.log(LogedUser+"kkk");
   if (!LogedUser) {
       return next(new ErrorHandler("User not found", 404));
   }
-  console.log(LogedUser);
+  // console.log(LogedUser);
   res.json(LogedUser);
 });
 
@@ -82,7 +83,20 @@ exports.createProductpage = catchAsyncErrors(async (req, res, next) => {
 exports.orderPage = catchAsyncErrors(async (req, res, next) => {
  
 });
+exports.paymentCheck= catchAsyncErrors(async(req, res, next) => {
+ const user = await  userModel.findById(req.id).exec();
+ user.order.push({
+  holder:user._id,
+  paymentId:req.body.paymentId,
+  orderId:req.body.orderId,
+  successful :true,
+})
+ 
+await user.save();
+console.log(user);
 
+ 
+});
 exports.orderDetailPage = catchAsyncErrors(async (req, res, next) => {
 
 });
