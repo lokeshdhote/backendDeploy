@@ -46,7 +46,7 @@ app.use(
   
  
   
-  app.use(cors({origin:allowedOrigins, credentials: true})) 
+  app.use(cors({origin:allowedOrigins,  methods: 'GET,POST,PUT,DELETE', credentials: true})) 
 
 app.use(logger('tiny'));
 app.use(express.json());
