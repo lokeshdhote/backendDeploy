@@ -18,7 +18,7 @@ require("./models/dataBase.js").connectDatabse();
 
 
 
-const allowedOrigins =["http://localhost:5173","https://frontend-deploy-alpha.vercel.app/"]
+const allowedOrigins =["http://localhost:5173","https://frontend-deploy-alpha.vercel.app"]
 
 
 const generatedErrror = (err,req,res,next)=>{
