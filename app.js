@@ -18,17 +18,18 @@ require("./models/dataBase.js").connectDatabse();
 
 
 
-
 const allowedOrigins = ["http://localhost:5173", "https://frontend-deploy-alpha.vercel.app"];
 
-// CORS middleware
+// CORS middleware configuration
 app.use(cors({
-  origin: allowedOrigins,
-  methods: 'GET,POST,PUT,DELETE',
-  credentials: true
+  origin: allowedOrigins,      // Allow requests only from specified origins
+  methods: 'GET,POST,PUT,DELETE', // Specify allowed methods
+  credentials: true            // Enable credentials (cookies, headers)
 }));
 
-app.options('*', cors());
+// Handle preflight requests for all routes (OPTIONS method)
+app.options('*', cors()); 
+
 // app.use(cors({origin:allowedOrigins,  methods: 'GET,POST,PUT,DELETE', credentials: true})) 
 
 const generatedErrror = (err,req,res,next)=>{
