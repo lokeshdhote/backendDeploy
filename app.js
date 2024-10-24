@@ -18,8 +18,18 @@ require("./models/dataBase.js").connectDatabse();
 
 
 
-const allowedOrigins =["http://localhost:5173","https://frontend-deploy-alpha.vercel.app"]
 
+const allowedOrigins = ["http://localhost:5173", "https://frontend-deploy-alpha.vercel.app"];
+
+// CORS middleware
+app.use(cors({
+  origin: allowedOrigins,
+  methods: 'GET,POST,PUT,DELETE',
+  credentials: true
+}));
+
+// app.options('*', cors());
+// app.use(cors({origin:allowedOrigins,  methods: 'GET,POST,PUT,DELETE', credentials: true})) 
 
 const generatedErrror = (err,req,res,next)=>{
   const statuscode = err.statuscode || 500;
@@ -46,7 +56,7 @@ app.use(
   
  
   
-  app.use(cors({origin:allowedOrigins,  methods: 'GET,POST,PUT,DELETE', credentials: true})) 
+  
 
 app.use(logger('tiny'));
 app.use(express.json());
